@@ -2,10 +2,10 @@
 
 namespace MoneyManagerApp.Services
 {
-    public class DataStore : IDataStore<PaymentInfo>
+    public class PaymentDataStore : IDataStore<PaymentInfo>
     {
         private readonly List<PaymentInfo> _payments;
-        public DataStore()
+        public PaymentDataStore()
         {
             _payments = new List<PaymentInfo>()
             {

@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 
 namespace MoneyManagerApp.ViewModels
 {
-    public class EditInfoViewModel : BaseViewModel
+    public class PaymentInfoViewModel : BaseViewModel
     {
         public ObservableCollection<PaymentInfo> Payments { get; }
-        public EditInfoViewModel()
+        public PaymentInfoViewModel()
         {
             Payments = new ObservableCollection<PaymentInfo>();
             _ = LoadPayments();

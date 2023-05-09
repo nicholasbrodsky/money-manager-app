@@ -7,7 +7,8 @@ namespace MoneyManagerApp.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<PaymentInfo> PaymentDataStore = new DataStore();
+        public IDataStore<PaymentInfo> PaymentDataStore = new PaymentDataStore();
+        public IDataStore<UserInfo> UserDataStore = new UserDataStore();
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

@@ -49,13 +49,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\EditInfoPage.xaml.cs">
-	    <DependentUpon>EditInfoPage.xaml</DependentUpon>
+	  <Compile Update="Views\PaymentInfoPage.xaml.cs">
+	    <DependentUpon>PaymentInfoPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\EditInfoPage.xaml">
+	  <MauiXaml Update="Views\PaymentInfoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\UserInfoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

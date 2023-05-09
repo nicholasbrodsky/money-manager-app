@@ -14,9 +14,14 @@
             Route="MainPage" />
 
         <ShellContent
+            Title="User"
+            ContentTemplate="{DataTemplate views:UserInfoPage}"
+            Route="UserInfoPage" />
+
+        <ShellContent
             Title="Info"
-            ContentTemplate="{DataTemplate views:EditInfoPage}"
-            Route="EditInfoPage" />
+            ContentTemplate="{DataTemplate views:PaymentInfoPage}"
+            Route="PaymentInfoPage" />
     </TabBar>
 
 </Shell>
