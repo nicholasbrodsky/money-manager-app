@@ -2,7 +2,7 @@
 {
 	public class MainViewModel : BaseViewModel
     {
-		private string name = "Nicholas";
+		private string name = "Nicholas Brodsky";
 		public string Name
 		{
 			get { return name; }
