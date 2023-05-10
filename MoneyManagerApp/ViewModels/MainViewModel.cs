@@ -67,7 +67,14 @@ namespace MoneyManagerApp.ViewModels
 
 		public MainViewModel()
 		{
-			_ = GetCurrentInfo();
+			//GetCurrentInfo();
+			Task.Run(GetCurrentInfo);
+			//Thread test = new Thread(new ThreadStart(GetCurrentInfo))
+			//{
+			//	IsBackground = true,
+
+			//};
+			//test.Start();
 		}
 
 		public async Task GetCurrentInfo()
@@ -85,12 +92,13 @@ namespace MoneyManagerApp.ViewModels
 		public async Task GetPayments()
         {
 			var lastPaidDate = User.LastPaidDate;
+			var currentDate = DateTime.Now;
 			var nextPaidDate = lastPaidDate.AddDays(14);
 
 			var payments = await PaymentDataStore.GetItems();
             int lastPaidDay = User.LastPaidDate.Day;
-			int nextPaidDay = User.LastPaidDate.AddDays(14).Day;
-			int currentDay = DateTime.Now.Day;
+			//int nextPaidDay = User.LastPaidDate.AddDays(14).Day;
+			//int currentDay = DateTime.Now.Day;
 
 			TotalOwed = 0;
 			MoneySpent = 0;
@@ -100,19 +108,28 @@ namespace MoneyManagerApp.ViewModels
 			PaymentsRemaining.Clear();
 
             foreach (var payment in payments)
-			{
+            {
+				DateTime billDate;
+                if (payment.DueDay >= lastPaidDay)
+                {
+					billDate = new DateTime(lastPaidDate.Year, lastPaidDate.Month, payment.DueDay);
+                }
+				else /*if (payment.DueDay < nextPaidDay)*/
+                {
+                    billDate = new DateTime(nextPaidDate.Year, nextPaidDate.Month, payment.DueDay);
+                }
 
-				if (payment.DueDay >= lastPaidDay || payment.DueDay <= currentDay)
+                if (billDate >= lastPaidDate && billDate <= currentDate)
 				{
 					MoneySpent += payment.Bill;
 					PaymentsMade.Add(payment);
                 }
-                if (payment.DueDay > currentDay || payment.DueDay < nextPaidDay)
+                if (billDate > currentDate && billDate < nextPaidDate)
                 {
                     RemainingOwed += payment.Bill;
                     PaymentsRemaining.Add(payment);
                 }
-				if (payment.DueDay >= lastPaidDay || payment.DueDay < nextPaidDay)
+				if (billDate >= lastPaidDate && billDate < nextPaidDate)
 				{
 					TotalOwed += payment.Bill;
 				}
