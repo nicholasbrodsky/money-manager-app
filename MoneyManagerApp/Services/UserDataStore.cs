@@ -14,7 +14,8 @@ namespace MoneyManagerApp.Services
                     Id = 0,
                     Name = "Nicholas",
                     Paycheck = 2400,
-                    PayPeriod = 0,
+                    PayPeriod = UserInfo.Pay.Biweekly,
+                    LastPaidDate = new DateTime(2023, 4, 28),
                 }
             };
         }
@@ -30,7 +31,7 @@ namespace MoneyManagerApp.Services
             return await Task.FromResult(user);
         }
 
-        public async Task<List<UserInfo>> GetItems()
+        public async Task<IEnumerable<UserInfo>> GetItems()
         {
             return await Task.FromResult(_users);
         }

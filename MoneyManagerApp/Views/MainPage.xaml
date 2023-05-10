@@ -8,16 +8,83 @@
         <vm:MainViewModel />
     </ContentPage.BindingContext>
 
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            <Label
-                Text="{Binding Name}" />
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Last Paid Date:"
+                   Padding="8,8,4,8"/>
+            <Label Text="{Binding LastPayDay}"
+                   Padding="8"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal"
+                     Grid.Column="1">
+            <Label Text="Next Paid Date:" Padding="8,8,4,8" />
+            <Label Text="{Binding NextPayDay}" Padding="8" />
+        </StackLayout>
 
-        </VerticalStackLayout>
-    </ScrollView>
+        <StackLayout Orientation="Horizontal"
+                     Grid.Row="1">
+            <Label Text="Paycheck:"
+                   Padding="8,8,4,8"/>
+            <Label Text="{Binding User.Paycheck}"
+                   Padding="8"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal"
+                     Grid.Row="1"
+                     Grid.Column="1">
+            <Label Text="Total Owed:" Padding="8,8,4,8" />
+            <Label Text="{Binding TotalOwed}" Padding="8" />
+        </StackLayout>
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Remaining Owed:" />
+                <Label Text="{Binding RemainingOwed}" />
+            </StackLayout>
+            
+            <CollectionView Grid.Row="1"
+                            ItemsSource="{Binding PaymentsRemaining}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Text="{Binding Bill}"
+                           Grid.Row="0" Grid.Column="0"/>
+                            <Label Text="{Binding DueDay}"
+                           Grid.Row="0" Grid.Column="1"/>
+                            <Label Text="{Binding Description}"
+                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
 
 </ContentPage>

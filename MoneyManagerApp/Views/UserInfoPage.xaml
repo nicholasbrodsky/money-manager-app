@@ -9,6 +9,13 @@
     </ContentPage.BindingContext>
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+
+        </Grid.ColumnDefinitions>
+
     </Grid>
 </ContentPage>
