@@ -13,9 +13,10 @@ namespace MoneyManagerApp.Services
                 {
                     Id = 0,
                     Name = "Nicholas",
-                    Paycheck = 2400,
+                    Paycheck = 1200,
                     PayPeriod = UserInfo.Pay.Biweekly,
-                    LastPaidDate = new DateTime(2023, 4, 28),
+                    LastPaidDate = new DateTime(2023, 5, 12),
+                    PayPeriodPayment = 1200,
                 }
             };
         }

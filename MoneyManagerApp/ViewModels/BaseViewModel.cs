@@ -10,6 +10,13 @@ namespace MoneyManagerApp.ViewModels
         public IDataStore<PaymentInfo> PaymentDataStore = new PaymentDataStore();
         public IDataStore<UserInfo> UserDataStore = new UserDataStore();
 
+        private bool refresh;
+        public bool Refresh
+        {
+            get { return refresh; }
+            set { refresh = value; OnPropertyChanged(); }
+        }
+
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

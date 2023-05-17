@@ -13,6 +13,7 @@
         }
         public Pay PayPeriod { get; set; }
         public DateTime LastPaidDate { get; set; }
-        public DateTime NextPaidDate { get; set; }
+        //public DateTime NextPaidDate { get; set; }
+        public int PayPeriodPayment { get; set; }
     }
 }

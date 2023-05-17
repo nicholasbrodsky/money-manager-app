@@ -1,5 +1,6 @@
 ﻿using MoneyManagerApp.Models;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace MoneyManagerApp.ViewModels
 {
@@ -35,6 +36,13 @@ namespace MoneyManagerApp.ViewModels
 			set { totalOwed = value; OnPropertyChanged(); }
 		}
 
+		private int moneyAvailable;
+		public int MoneyAvailable
+        {
+			get { return moneyAvailable; }
+			set { moneyAvailable = value; OnPropertyChanged(); }
+		}
+
 		private int moneySpent;
 		public int MoneySpent
 		{
@@ -62,10 +70,47 @@ namespace MoneyManagerApp.ViewModels
 			get { return paymentsRemaining; }
 			set { paymentsRemaining = value; OnPropertyChanged(); }
 		}
-		
+
+		#region Temp Info
+		private string tempDescription;
+		public string TempDescription
+		{
+			get { return tempDescription; }
+			set { tempDescription = value; OnPropertyChanged(); }
+		}
+
+		private int? tempAmount;
+		public int? TempAmount
+		{
+			get { return tempAmount; }
+			set { tempAmount = value; OnPropertyChanged(); }
+		}
+
+		private int? tempDay;
+		public int? TempDay
+		{
+			get { return tempDay; }
+			set { tempDay = value; OnPropertyChanged(); }
+		}
+		#endregion Temp Info
+
 		#endregion Binding Vars
 
-		public MainViewModel()
+		public ICommand loadCommand;
+        public ICommand LoadCommand
+        {
+            get { return loadCommand; }
+            set { loadCommand = value; OnPropertyChanged(); }
+        }
+        private ICommand addCommand;
+		public ICommand AddCommand
+		{
+			get { return addCommand; }
+			set { addCommand = value; OnPropertyChanged(); }
+		}
+
+
+        public MainViewModel()
 		{
 			//GetCurrentInfo();
 			Task.Run(GetCurrentInfo);
@@ -75,6 +120,26 @@ namespace MoneyManagerApp.ViewModels
 
 			//};
 			//test.Start();
+
+			LoadCommand = new Command(async () =>
+			{
+				await GetPayments();
+				TempAmount = null;
+				TempDay = null;
+				TempDescription = "";
+				Refresh = false;
+			});
+			AddCommand = new Command(async () =>
+			{
+                await PaymentDataStore.AddItem(new PaymentInfo
+                {
+                    Id = 1,
+                    Description = TempDescription,
+                    Bill = (int)TempAmount,
+                    DueDay = (int)TempDay,
+                });
+				Refresh = true;
+			});
 		}
 
 		public async Task GetCurrentInfo()
@@ -89,14 +154,15 @@ namespace MoneyManagerApp.ViewModels
 
 			await GetPayments();
 		}
+
+		#region Get Payment Info
 		public async Task GetPayments()
-        {
+		{
 			var lastPaidDate = User.LastPaidDate;
 			var currentDate = DateTime.Now;
 			var nextPaidDate = lastPaidDate.AddDays(14);
 
-			var payments = await PaymentDataStore.GetItems();
-            int lastPaidDay = User.LastPaidDate.Day;
+			int lastPaidDay = User.LastPaidDate.Day;
 			//int nextPaidDay = User.LastPaidDate.AddDays(14).Day;
 			//int currentDay = DateTime.Now.Day;
 
@@ -107,33 +173,36 @@ namespace MoneyManagerApp.ViewModels
 			PaymentsMade.Clear();
 			PaymentsRemaining.Clear();
 
-            foreach (var payment in payments)
-            {
+			var payments = await PaymentDataStore.GetItems();
+			foreach (var payment in payments)
+			{
 				DateTime billDate;
-                if (payment.DueDay >= lastPaidDay)
-                {
+				if (payment.DueDay >= lastPaidDay)
+				{
 					billDate = new DateTime(lastPaidDate.Year, lastPaidDate.Month, payment.DueDay);
-                }
+				}
 				else /*if (payment.DueDay < nextPaidDay)*/
-                {
-                    billDate = new DateTime(nextPaidDate.Year, nextPaidDate.Month, payment.DueDay);
-                }
+				{
+					billDate = new DateTime(nextPaidDate.Year, nextPaidDate.Month, payment.DueDay);
+				}
 
-                if (billDate >= lastPaidDate && billDate <= currentDate)
+				if (billDate >= lastPaidDate && billDate <= currentDate)
 				{
 					MoneySpent += payment.Bill;
 					PaymentsMade.Add(payment);
-                }
-                if (billDate > currentDate && billDate < nextPaidDate)
-                {
-                    RemainingOwed += payment.Bill;
-                    PaymentsRemaining.Add(payment);
-                }
+				}
+				if (billDate > currentDate && billDate < nextPaidDate)
+				{
+					RemainingOwed += payment.Bill;
+					PaymentsRemaining.Add(payment);
+				}
 				if (billDate >= lastPaidDate && billDate < nextPaidDate)
 				{
 					TotalOwed += payment.Bill;
 				}
-            }
-        }
+			}
+			MoneyAvailable = User.Paycheck - TotalOwed;
+		}
+        #endregion Get Payment Info
     }
 }

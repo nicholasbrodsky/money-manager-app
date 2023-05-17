@@ -47,9 +47,16 @@ namespace MoneyManagerApp.Services
                 new PaymentInfo()
                 {
                     Id = 5,
-                    Bill = 115,
-                    Description = "Charlie's Meds",
-                    DueDay = 16,
+                    Bill = 80,
+                    Description = "Charlie's Meds (chewy)",
+                    DueDay = 3,
+                },
+                new PaymentInfo()
+                {
+                    Id = 5,
+                    Bill = 50,
+                    Description = "Charlie's Meds (vet)",
+                    DueDay = 12,
                 },
                 new PaymentInfo()
                 {
@@ -78,6 +85,13 @@ namespace MoneyManagerApp.Services
                     Bill = 10,
                     Description = "DoorDash",
                     DueDay = 10,
+                },
+                new PaymentInfo()
+                {
+                    Id = 10,
+                    Bill = 15,
+                    Description = "NordVPM",
+                    DueDay = 11,
                 },
             };
         }

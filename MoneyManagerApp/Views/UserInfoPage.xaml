@@ -4,11 +4,15 @@
              x:Class="MoneyManagerApp.Views.UserInfoPage"
              xmlns:vm="clr-namespace:MoneyManagerApp.ViewModels"
              Title="UserInfoPage">
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <vm:UserInfoViewModel />
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
 
-    <Grid>
+    <!--<Grid>-->
+    <Grid BindingContext="{Binding UserInfoViewModel}">
+        <!--<Grid.BindingContext>
+            <vm:UserInfoViewModel />
+        </Grid.BindingContext>-->
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -16,6 +20,9 @@
         <Grid.ColumnDefinitions>
 
         </Grid.ColumnDefinitions>
+
+        <Label Text="{Binding Title}" />
+        <Label Text="Test" />
 
     </Grid>
 </ContentPage>
