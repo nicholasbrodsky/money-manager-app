@@ -139,7 +139,6 @@ namespace MoneyManagerApp.ViewModels
 			await GetPayments();
 		}
 
-		#region Get Payment Info
 		public async Task GetPayments()
 		{
 			var lastPaidDate = User.LastPaidDate;
@@ -187,7 +186,6 @@ namespace MoneyManagerApp.ViewModels
 			}
 			MoneyAvailable = User.Paycheck - TotalOwed;
 		}
-		#endregion Get Payment Info
 
 		public async void LoadPaymentCollections()
         {

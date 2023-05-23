@@ -80,24 +80,27 @@
                         ItemsSource="{Binding PaymentsRemaining}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
+                                <Border Padding="4"
+                                        Stroke="1">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
 
-                                    <Label
-                                        Text="{Binding Bill}"
-                                        Grid.Row="0" Grid.Column="0"/>
-                                    <Label Text="{Binding DueDay}"
-                                           Grid.Row="0" Grid.Column="1"/>
-                                    <Label Text="{Binding Description}"
-                                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                </Grid>
+                                        <Label Text="{Binding Description}"
+                                           Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                        <Label
+                                            Text="{Binding Bill}"
+                                            Grid.Row="1" Grid.Column="0"/>
+                                        <Label Text="{Binding DueDay}"
+                                               Grid.Row="1" Grid.Column="1"/>
+                                    </Grid>
+                                </Border>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
@@ -126,11 +129,11 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Label Text="{Binding Bill}"
-                           Grid.Row="0" Grid.Column="0"/>
+                                           Grid.Row="0" Grid.Column="0"/>
                                     <Label Text="{Binding DueDay}"
-                           Grid.Row="0" Grid.Column="1"/>
+                                           Grid.Row="0" Grid.Column="1"/>
                                     <Label Text="{Binding Description}"
-                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
