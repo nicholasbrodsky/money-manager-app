@@ -172,7 +172,7 @@
                 Grid.Column="1"
                 Placeholder="Day of Month..." />
             <Button
-                Command="{Binding AddCommand}"
+                Command="{Binding AddTempCommand}"
                 Grid.Row="2"
                 Grid.ColumnSpan="2"
                 Text="Add" />

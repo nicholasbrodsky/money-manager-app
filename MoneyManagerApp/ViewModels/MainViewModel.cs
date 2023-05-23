@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace MoneyManagerApp.ViewModels
 {
 	public class MainViewModel : BaseViewModel
-    {
+	{
 		#region Binding Vars
 
 		private UserInfo user;
@@ -38,7 +38,7 @@ namespace MoneyManagerApp.ViewModels
 
 		private int moneyAvailable;
 		public int MoneyAvailable
-        {
+		{
 			get { return moneyAvailable; }
 			set { moneyAvailable = value; OnPropertyChanged(); }
 		}
@@ -96,24 +96,25 @@ namespace MoneyManagerApp.ViewModels
 
 		#endregion Binding Vars
 
+		#region Commands
 		public ICommand loadCommand;
-        public ICommand LoadCommand
-        {
-            get { return loadCommand; }
-            set { loadCommand = value; OnPropertyChanged(); }
-        }
-        private ICommand addCommand;
-		public ICommand AddCommand
+		public ICommand LoadCommand
 		{
-			get { return addCommand; }
-			set { addCommand = value; OnPropertyChanged(); }
+			get { return loadCommand; }
+			set { loadCommand = value; }
 		}
+		private ICommand addTempCommand;
+		public ICommand AddTempCommand
+		{
+			get { return addTempCommand; }
+			set { addTempCommand = value; }
+		}
+		#endregion Commands
 
-
-        public MainViewModel()
+		public MainViewModel()
 		{
 			//GetCurrentInfo();
-			Task.Run(GetCurrentInfo);
+			Task.Run(SetCurrentInfo);
 			//Thread test = new Thread(new ThreadStart(GetCurrentInfo))
 			//{
 			//	IsBackground = true,
@@ -121,36 +122,16 @@ namespace MoneyManagerApp.ViewModels
 			//};
 			//test.Start();
 
-			LoadCommand = new Command(async () =>
-			{
-				await GetPayments();
-				TempAmount = null;
-				TempDay = null;
-				TempDescription = "";
-				Refresh = false;
-			});
-			AddCommand = new Command(async () =>
-			{
-				if (TempAmount == null || TempDay is null || string.IsNullOrEmpty(TempDescription))
-					return;
-
-                await PaymentDataStore.AddItem(new PaymentInfo
-                {
-                    Id = 1,
-                    Description = TempDescription,
-                    Bill = (int)TempAmount,
-                    DueDay = (int)TempDay,
-                });
-				Refresh = true;
-			});
+			LoadCommand = new Command(LoadPaymentCollections);
+			AddTempCommand = new Command(AddTempPayment);
 		}
 
-		public async Task GetCurrentInfo()
+		public async Task SetCurrentInfo()
 		{
 			User = await UserDataStore.GetItem(0);
 
-            PaymentsMade = new ObservableCollection<PaymentInfo>();
-            PaymentsRemaining = new ObservableCollection<PaymentInfo>();
+			PaymentsMade = new ObservableCollection<PaymentInfo>();
+			PaymentsRemaining = new ObservableCollection<PaymentInfo>();
 
 			LastPayDay = User.LastPaidDate.ToShortDateString();
 			NextPayDay = User.LastPaidDate.AddDays(14).ToShortDateString();
@@ -206,6 +187,38 @@ namespace MoneyManagerApp.ViewModels
 			}
 			MoneyAvailable = User.Paycheck - TotalOwed;
 		}
-        #endregion Get Payment Info
+		#endregion Get Payment Info
+
+		public async void LoadPaymentCollections()
+        {
+            await GetPayments();
+            ClearTempFields();
+            Refresh = false;
+        }
+
+		public async void AddTempPayment()
+        {
+            if (TempAmount == null || TempDay is null || string.IsNullOrEmpty(TempDescription))
+                return;
+
+            await PaymentDataStore.AddItem(new PaymentInfo
+            {
+                Id = 1,
+                Description = TempDescription,
+                Bill = (int)TempAmount,
+                DueDay = (int)TempDay,
+            });
+            await GetPayments();
+
+            ClearTempFields();
+            //Refresh = true;
+        }
+
+        public void ClearTempFields()
+        {
+            TempAmount = null;
+            TempDay = null;
+            TempDescription = "";
+        }
     }
 }
