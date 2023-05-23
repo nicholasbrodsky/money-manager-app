@@ -131,6 +131,9 @@ namespace MoneyManagerApp.ViewModels
 			});
 			AddCommand = new Command(async () =>
 			{
+				if (TempAmount == null || TempDay is null || string.IsNullOrEmpty(TempDescription))
+					return;
+
                 await PaymentDataStore.AddItem(new PaymentInfo
                 {
                     Id = 1,
