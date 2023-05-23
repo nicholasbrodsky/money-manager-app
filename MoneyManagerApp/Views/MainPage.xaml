@@ -13,7 +13,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -49,110 +48,104 @@
         </StackLayout>
         <!--#endregion Overall Money Info -->
 
-        <!--#region Remaining Money Owed -->
+        <!--#region Remaining Money Owed / Money Spent -->
         <Grid Grid.Row="2"
               Grid.ColumnSpan="2"
               Padding="8">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-
-            </Grid.ColumnDefinitions>
-
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Remaining Owed:" />
-                <Label Text="{Binding RemainingOwed}" />
-                <Label Text="/" />
-                <Label Text="{Binding TotalOwed}" />
-            </StackLayout>
 
             <RefreshView
-                Grid.Row="1"
                 Command="{Binding LoadCommand}"
                 IsRefreshing="{Binding Refresh}" >
-                <CollectionView
-                            ItemsSource="{Binding PaymentsRemaining}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding Bill}"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!--#region Money Owed -->
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Remaining Owed:" />
+                        <Label Text="{Binding RemainingOwed}" />
+                        <Label Text="/" />
+                        <Label Text="{Binding TotalOwed}" />
+                    </StackLayout>
+                    <CollectionView
+                        Grid.Row="1"
+                        ItemsSource="{Binding PaymentsRemaining}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        Text="{Binding Bill}"
+                                        Grid.Row="0" Grid.Column="0"/>
+                                    <Label Text="{Binding DueDay}"
+                                           Grid.Row="0" Grid.Column="1"/>
+                                    <Label Text="{Binding Description}"
+                                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <!--#endregion Money Owed -->
+
+                    <!--#region Money Spent -->
+                    <StackLayout
+                        Grid.Row="2"
+                        Orientation="Horizontal">
+                        <Label Text="Total Paid:" />
+                        <Label Text="{Binding MoneySpent}" />
+                    </StackLayout>
+                    <CollectionView
+                        Grid.Row="3"
+                        ItemsSource="{Binding PaymentsMade}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Text="{Binding Bill}"
                            Grid.Row="0" Grid.Column="0"/>
-                                <Label Text="{Binding DueDay}"
+                                    <Label Text="{Binding DueDay}"
                            Grid.Row="0" Grid.Column="1"/>
-                                <Label Text="{Binding Description}"
+                                    <Label Text="{Binding Description}"
                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <!--#endregion Money Spent -->
+                </Grid>
+                
             </RefreshView>
         </Grid>
         <!--#endregion Remaining Money Owed -->
 
-        <!--#region Money Spent -->
-        <Grid Grid.Row="3"
-              Grid.ColumnSpan="2"
-              Padding="8">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-
-            </Grid.ColumnDefinitions>
-
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Total Paid:" />
-                <Label Text="{Binding MoneySpent}" />
-            </StackLayout>
-
-            <RefreshView
-                Grid.Row="1"
-                
-                IsRefreshing="{Binding Refresh}" >
-                <CollectionView
-                            ItemsSource="{Binding PaymentsMade}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-
-                                <Label Text="{Binding Bill}"
-                           Grid.Row="0" Grid.Column="0"/>
-                                <Label Text="{Binding DueDay}"
-                           Grid.Row="0" Grid.Column="1"/>
-                                <Label Text="{Binding Description}"
-                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </RefreshView>
-        </Grid>
-        <!--#endregion Money Spent -->
-
         <!--#region Temp Info -->
         <Grid
             Grid.ColumnSpan="2"
-            Grid.Row="4">
+            Grid.Row="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -174,6 +167,7 @@
                 Placeholder="Amount..." />
             <Entry
                 Text="{Binding TempDay}"
+                Keyboard="Numeric"
                 Grid.Row="1"
                 Grid.Column="1"
                 Placeholder="Day of Month..." />
@@ -184,6 +178,7 @@
                 Text="Add" />
         </Grid>
         <!--#endregion Temp Info -->
+        
     </Grid>
 
 </ContentPage>
