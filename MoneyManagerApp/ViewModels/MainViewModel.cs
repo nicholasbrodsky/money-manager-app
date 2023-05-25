@@ -50,26 +50,17 @@ namespace MoneyManagerApp.ViewModels
 			set { moneySpent = value; OnPropertyChanged(); }
 		}
 
-		private ObservableCollection<PaymentInfo> paymentsMade;
-		public ObservableCollection<PaymentInfo> PaymentsMade
-		{
-			get { return paymentsMade; }
-			set { paymentsMade = value; OnPropertyChanged(); }
-		}
+		public ObservableCollection<PaymentInfo> PaymentsMade { get; }
 
-		private int remainingOwed;
+
+        private int remainingOwed;
 		public int RemainingOwed
 		{
 			get { return remainingOwed; }
 			set { remainingOwed = value; OnPropertyChanged(); }
 		}
 
-		private ObservableCollection<PaymentInfo> paymentsRemaining;
-		public ObservableCollection<PaymentInfo> PaymentsRemaining
-		{
-			get { return paymentsRemaining; }
-			set { paymentsRemaining = value; OnPropertyChanged(); }
-		}
+        public ObservableCollection<PaymentInfo> PaymentsRemaining { get; }
 
 		#region Temp Info
 		private string tempDescription;
@@ -112,10 +103,12 @@ namespace MoneyManagerApp.ViewModels
 		#endregion Commands
 
 		public MainViewModel()
-		{
-			//GetCurrentInfo();
-			Task.Run(SetCurrentInfo);
-			//Thread test = new Thread(new ThreadStart(GetCurrentInfo))
+        {
+            PaymentsMade = new ObservableCollection<PaymentInfo>();
+            PaymentsRemaining = new ObservableCollection<PaymentInfo>();
+
+            Task.Run(SetCurrentInfo);
+			//Thread test = new Thread(new ThreadStart(SetCurrentInfo))
 			//{
 			//	IsBackground = true,
 
@@ -129,9 +122,6 @@ namespace MoneyManagerApp.ViewModels
 		public async Task SetCurrentInfo()
 		{
 			User = await UserDataStore.GetItem(0);
-
-			PaymentsMade = new ObservableCollection<PaymentInfo>();
-			PaymentsRemaining = new ObservableCollection<PaymentInfo>();
 
 			LastPayDay = User.LastPaidDate.ToShortDateString();
 			NextPayDay = User.LastPaidDate.AddDays(14).ToShortDateString();
@@ -156,8 +146,10 @@ namespace MoneyManagerApp.ViewModels
 			PaymentsMade.Clear();
 			PaymentsRemaining.Clear();
 
-			var payments = await PaymentDataStore.GetItems();
-			foreach (var payment in payments)
+            var payments = (await PaymentDataStore.GetItems())
+                .ToList()
+                .OrderBy(p => p.DueDay);
+            foreach (var payment in payments)
 			{
 				DateTime billDate;
 				if (payment.DueDay >= lastPaidDay)

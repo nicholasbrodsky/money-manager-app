@@ -15,33 +15,51 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-        
-        <CollectionView ItemsSource="{Binding Payments}"
-                    SelectionMode="None" >
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
 
-                        <Label Text="{Binding Bill}"
-                           Grid.Row="0" Grid.Column="0"/>
-                        <Label Text="{Binding DueDay}"
-                           Grid.Row="0" Grid.Column="1"/>
-                        <Label Text="{Binding Description}"
-                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <RefreshView
+            Command="{Binding LoadPaymentsCommand}"
+            IsRefreshing="{Binding Refresh}">
+            <CollectionView
+                ItemsSource="{Binding Payments}"
+                SelectionMode="None" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Padding="4"
+                            Stroke="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    Text="{Binding Description}"
+                                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                <HorizontalStackLayout
+                                    Grid.Row="1">
+                                    <Label
+                                        Text="$" />
+                                    <Label
+                                        Text="{Binding Bill}" />
+                                </HorizontalStackLayout>
+                                <Label
+                                    Text="{Binding DueDay}"
+                                    Grid.Row="1" Grid.Column="1"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -58,7 +76,8 @@
             <Entry Grid.Column="1" Placeholder="Day" />
             <Entry Grid.Row="1" Grid.ColumnSpan="2" Placeholder="Description" />
             <Button Text="Add"
-                    Grid.Row="2"/>
+                    Grid.Row="2"
+                    Grid.ColumnSpan="2" />
         </Grid>
         
     </Grid>
