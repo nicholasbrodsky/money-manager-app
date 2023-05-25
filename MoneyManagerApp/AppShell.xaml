@@ -4,9 +4,21 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MoneyManagerApp"
-    xmlns:views="clr-namespace:MoneyManagerApp.Views"
-    Shell.FlyoutBehavior="Disabled">
+    xmlns:views="clr-namespace:MoneyManagerApp.Views">
 
+    <FlyoutItem
+        Title="Home">
+        <ShellContent
+            ContentTemplate="{DataTemplate views:MainPage}"
+            Route="MainPage" />
+    </FlyoutItem>
+    <FlyoutItem
+        Title="Info">
+        <ShellContent
+            ContentTemplate="{DataTemplate views:PaymentInfoPage}"
+            Route="PaymentInfoPage" />
+    </FlyoutItem>
+    
     <TabBar>
         <ShellContent
             Title="Home"
