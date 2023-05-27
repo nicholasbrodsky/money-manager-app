@@ -1,5 +1,6 @@
 ﻿using MoneyManagerApp.Models;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace MoneyManagerApp.ViewModels
@@ -88,18 +89,8 @@ namespace MoneyManagerApp.ViewModels
 		#endregion Binding Vars
 
 		#region Commands
-		public ICommand loadCommand;
-		public ICommand LoadCommand
-		{
-			get { return loadCommand; }
-			set { loadCommand = value; }
-		}
-		private ICommand addTempCommand;
-		public ICommand AddTempCommand
-		{
-			get { return addTempCommand; }
-			set { addTempCommand = value; }
-		}
+		public ICommand LoadCommand { get; }
+		public Command AddTempCommand { get; }
 		#endregion Commands
 
 		public MainViewModel()
@@ -116,7 +107,9 @@ namespace MoneyManagerApp.ViewModels
 			//test.Start();
 
 			LoadCommand = new Command(LoadPaymentCollections);
-			AddTempCommand = new Command(AddTempPayment);
+			AddTempCommand = new Command(AddTempPayment, ValidateAddPayment);
+			//PropertyChanged += (_, _) => AddTempCommand.ChangeCanExecute();
+			PropertyChanged += AddTempCommandCanExecute;
 		}
 
 		public async Task SetCurrentInfo()
@@ -179,17 +172,17 @@ namespace MoneyManagerApp.ViewModels
 			MoneyAvailable = User.Paycheck - TotalOwed;
 		}
 
-		public async void LoadPaymentCollections()
+		private async void LoadPaymentCollections()
         {
             await GetPayments();
             ClearTempFields();
             Refresh = false;
         }
 
-		public async void AddTempPayment()
+		private async void AddTempPayment()
         {
-            if (TempAmount == null || TempDay is null || string.IsNullOrEmpty(TempDescription))
-                return;
+            //if (TempAmount == null || TempDay is null || string.IsNullOrEmpty(TempDescription))
+            //    return;
 
             await PaymentDataStore.AddItem(new PaymentInfo
             {
@@ -202,6 +195,16 @@ namespace MoneyManagerApp.ViewModels
 
             ClearTempFields();
             //Refresh = true;
+        }
+		private bool ValidateAddPayment()
+		{
+			return TempAmount != null && TempAmount > 0
+				&& TempDay != null && TempDay > 0
+				&& !string.IsNullOrEmpty(TempDescription);
+		}
+		private void AddTempCommandCanExecute(object sender, PropertyChangedEventArgs e)
+		{
+            AddTempCommand.ChangeCanExecute();
         }
 
         public void ClearTempFields()

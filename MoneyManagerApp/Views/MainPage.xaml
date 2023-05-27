@@ -178,16 +178,16 @@
             </Grid.ColumnDefinitions>
 
             <Entry
-                Text="{Binding TempDescription}"
+                Text="{Binding TempDescription, Mode=TwoWay}"
                 Grid.ColumnSpan="2"
                 Placeholder="Description..." />
             <Entry
-                Text="{Binding TempAmount}"
+                Text="{Binding TempAmount, Mode=TwoWay}"
                 Keyboard="Numeric"
                 Grid.Row="1"
                 Placeholder="Amount..." />
             <Entry
-                Text="{Binding TempDay}"
+                Text="{Binding TempDay, Mode=TwoWay}"
                 Keyboard="Numeric"
                 Grid.Row="1"
                 Grid.Column="1"
