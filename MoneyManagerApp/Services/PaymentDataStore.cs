@@ -118,5 +118,19 @@ namespace MoneyManagerApp.Services
         {
             return await Task.FromResult(_payments);
         }
+
+        public async Task<bool> RemoveItem(int id)
+        {
+            var payment = await GetItem(id);
+            return await Task.FromResult(_payments.Remove(payment));
+        }
+
+        public async Task<bool> UpdateItem(PaymentInfo item)
+        {
+            var payment = GetItem(item.Id);
+            int index = _payments.FindIndex(p => p.Id == item.Id);
+            _payments[index] = item;
+            return await Task.FromResult(true);
+        }
     }
 }

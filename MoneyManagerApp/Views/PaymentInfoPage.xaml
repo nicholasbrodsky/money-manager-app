@@ -39,21 +39,29 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <Label
                                     Text="{Binding Description}"
                                     Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                <HorizontalStackLayout
-                                    Grid.Row="1">
-                                    <Label
-                                        Text="$" />
-                                    <Label
-                                        Text="{Binding Bill}" />
-                                </HorizontalStackLayout>
+                                <Label
+                                    Text="{Binding Bill, StringFormat='${0}'}"
+                                    Grid.Row="1"/>
                                 <Label
                                     Text="{Binding DueDay}"
                                     Grid.Row="1" Grid.Column="1"/>
+
+                                <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="2"
+                                        Text="Edit"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PaymentInfoViewModel}}, Path=EditPaymentCommand}"
+                                        CommandParameter="{Binding Id}"/>
+                                <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="3"
+                                        Text="Del"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PaymentInfoViewModel}}, Path=RemovePaymentCommand}"
+                                        CommandParameter="{Binding Id}"
+                                        />
                             </Grid>
                         </Border>
                     </DataTemplate>
@@ -72,10 +80,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Entry Placeholder="Amount" />
-            <Entry Grid.Column="1" Placeholder="Day" />
-            <Entry Grid.Row="1" Grid.ColumnSpan="2" Placeholder="Description" />
-            <Button Text="Add"
+            <Entry Placeholder="Amount" Text="{Binding Amount}" />
+            <Entry Grid.Column="1" Placeholder="Day" Text="{Binding Day}" />
+            <Entry Grid.Row="1" Grid.ColumnSpan="2" Placeholder="Description" Text="{Binding Description}" />
+            <Button Text="{Binding BtnLabel}" Command="{Binding AddPaymentCommand}"
                     Grid.Row="2"
                     Grid.ColumnSpan="2" />
         </Grid>

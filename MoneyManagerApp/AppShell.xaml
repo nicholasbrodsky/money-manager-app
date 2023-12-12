@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:MoneyManagerApp"
     xmlns:views="clr-namespace:MoneyManagerApp.Views">
 
-    <FlyoutItem
+    <!--<FlyoutItem
         Title="Home">
         <ShellContent
             Title="Home"
@@ -18,7 +18,7 @@
         <ShellContent
             ContentTemplate="{DataTemplate views:PaymentInfoPage}"
             Route="PaymentInfoPage" />
-    </FlyoutItem>
+    </FlyoutItem>-->
     
     <TabBar>
         <ShellContent
@@ -32,7 +32,7 @@
             Route="UserInfoPage" />
 
         <ShellContent
-            Title="Info"
+            Title="Bills"
             ContentTemplate="{DataTemplate views:PaymentInfoPage}"
             Route="PaymentInfoPage" />
     </TabBar>

@@ -186,7 +186,7 @@ namespace MoneyManagerApp.ViewModels
 
             await PaymentDataStore.AddItem(new PaymentInfo
             {
-                Id = 1,
+                Id = (await PaymentDataStore.GetItems() as List<PaymentInfo>).Max(obj => obj.Id) + 1,
                 Description = TempDescription,
                 Bill = (int)TempAmount,
                 DueDay = (int)TempDay,

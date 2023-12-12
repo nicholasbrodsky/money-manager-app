@@ -15,7 +15,7 @@ namespace MoneyManagerApp.Services
                     Name = "Nicholas",
                     Paycheck = 1200,
                     PayPeriod = UserInfo.Pay.Biweekly,
-                    LastPaidDate = new DateTime(2023, 5, 26),
+                    LastPaidDate = new DateTime(2023, 11, 23),
                     PayPeriodPayment = 1200,
                 }
             };
@@ -35,6 +35,16 @@ namespace MoneyManagerApp.Services
         public async Task<IEnumerable<UserInfo>> GetItems()
         {
             return await Task.FromResult(_users);
+        }
+
+        public Task<bool> RemoveItem(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateItem(UserInfo item)
+        {
+            throw new NotImplementedException();
         }
     }
 }

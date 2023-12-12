@@ -10,6 +10,8 @@ namespace MoneyManagerApp.ViewModels
         public IDataStore<PaymentInfo> PaymentDataStore = new PaymentDataStore();
         public IDataStore<UserInfo> UserDataStore = new UserDataStore();
 
+        //public IDataStore<PaymentInfo> PaymentDataStore => DependencyService.Get<IDataStore<PaymentInfo>>();
+
         private bool refresh;
         public bool Refresh
         {
